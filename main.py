@@ -13,7 +13,13 @@ bot = commands.Bot(command_prefix="&", intents=intents)
 
 @bot.event
 async def on_ready():
+    await load_cogs()
     print(f'I AM READY')
+
+async def load_cogs():
+    for filename in os.listdir("./cogs"):
+        if filename.endswith(".py"):
+            await bot.load_extension(f'cogs.{filename[:-3]}')
 
 @bot.listen('on_message')
 async def respond_to_message (message): 
@@ -26,30 +32,11 @@ async def respond_to_message (message):
 async def commandList(ctx):
     await ctx.send(f'List of commands: cat')
 
-@bot.command(name="roll")
-async def roll_dice(ctx, highest_int=None, amount_to_roll=1):
-    rolled_dice = 0
-
-    def __roll(highest_int):
-        return random.randint(1,int(highest_int))
-
-    if highest_int is None:
-        await ctx.send(f"The correct syntax is: &{roll_dice.name} + <range of int> + Optional:<times to roll>")
-        return
-    try:
-        while rolled_dice < amount_to_roll:
-            rolled_dice = rolled_dice+1
-            result = __roll(highest_int)
-            await ctx.send(f":game_die: #{rolled_dice}: {result}")
-    except:
-        print(f"noob")
-        await ctx.send(f"i broke")
-
-@bot.command()
+"""@bot.command()
 async def cat(ctx):
     links = ["https://tenor.com/view/cat-on-fire-sitting-edited-on-fire-fire-gif-17645117","https://cdn.discordapp.com/attachments/954685416655695884/1272496214796927059/catgeon.gif?ex=66d047f3&is=66cef673&hm=a576a3248429b3f388401f29ad6bf6ea4cdc5525163e8addda06b6e05d0bc017&"]
     link = random.choice(links)
-    await ctx.send(link)
+    await ctx.send(link)"""
 
 @bot.command()
 async def mog(ctx):
