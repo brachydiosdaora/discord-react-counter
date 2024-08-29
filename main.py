@@ -1,6 +1,7 @@
 import discord
 import random
 import os
+from random import randrange
 from dotenv import load_dotenv   
 from discord.ext import commands
 
@@ -24,6 +25,22 @@ async def respond_to_message (message):
 @bot.command(name='commands')
 async def commandList(ctx):
     await ctx.send(f'List of commands: cat')
+
+@bot.command(name="roll")
+async def roll_dice(ctx, highest_int=None, amount_to_roll=1):
+    def __roll(highest_int):
+        return random.randint(1,int(highest_int))
+
+    if highest_int is None:
+        await ctx.send(f"The correct syntax is: &{roll_dice.name}+<range of int>+Optional:<times to roll>")
+    try:
+        while amount_to_roll >= 1:
+            result = __roll(highest_int)
+            await ctx.send(f"{result}")
+            amount_to_roll = amount_to_roll-1
+    except:
+        print(f"noob")
+        await ctx.send(f"i broke")
 
 @bot.command()
 async def cat(ctx):
