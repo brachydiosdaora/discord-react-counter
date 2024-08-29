@@ -28,16 +28,19 @@ async def commandList(ctx):
 
 @bot.command(name="roll")
 async def roll_dice(ctx, highest_int=None, amount_to_roll=1):
+    rolled_dice = 0
+
     def __roll(highest_int):
         return random.randint(1,int(highest_int))
 
     if highest_int is None:
-        await ctx.send(f"The correct syntax is: &{roll_dice.name}+<range of int>+Optional:<times to roll>")
+        await ctx.send(f"The correct syntax is: &{roll_dice.name} + <range of int> + Optional:<times to roll>")
+        return
     try:
-        while amount_to_roll >= 1:
+        while rolled_dice < amount_to_roll:
+            rolled_dice = rolled_dice+1
             result = __roll(highest_int)
-            await ctx.send(f"{result}")
-            amount_to_roll = amount_to_roll-1
+            await ctx.send(f":game_die: #{rolled_dice}: {result}")
     except:
         print(f"noob")
         await ctx.send(f"i broke")
